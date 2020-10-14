@@ -23,3 +23,7 @@ db-up:
 # apply down migration
 db-down:
 	migrate -path migrations -database "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable" -verbose down
+
+# generate golang models based on queries from ./internal/db/query
+db-generate:
+	sqlc generate

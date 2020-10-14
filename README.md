@@ -20,8 +20,11 @@ But it's might be simplified, if i will have prepared public project with common
 
 # How to use
 
+## Build and run application
+
 Run whole app by `make compose` and then just attach to `sources` container via `docker exec -it gohan.sources bash` or `make exec-sources`
 
 ## Modify database models
 
-### Use `db-status`, `db-up` and `db-down` to work with migrations
+- Manage migrations via `db-status`, `db-up` and `db-down` _(required [golang-migrate/migrate](https://github.com/golang-migrate/migrate))_
+- Generate models from source via 'make db-generate' _(required [kyleconroy/sqlc](https://github.com/kyleconroy/sqlc))_
