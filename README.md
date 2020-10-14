@@ -21,3 +21,7 @@ But it's might be simplified, if i will have prepared public project with common
 # How to use
 
 Run whole app by `make compose` and then just attach to `sources` container via `docker exec -it gohan.sources bash` or `make exec-sources`
+
+## Modify database models
+
+### Use `db-status`, `db-up` and `db-down` to work with migrations
