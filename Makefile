@@ -5,3 +5,9 @@ build:
 
 run:
 	go run ./cmd/gohan/...
+
+compose:
+	docker-compose up -d --build
+
+exec-sources:
+	docker exec -it gohan.sources bash
