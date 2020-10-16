@@ -9,7 +9,6 @@ build:
 
 test t:
 	go test -v ./internal/...
-	go test -v ./pkg/...
 
 lint l:
 	bash ./scripts/revive.sh
