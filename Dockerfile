@@ -15,6 +15,7 @@ COPY go.mod go.mod
 COPY go.sum go.sum
 COPY cmd cmd
 COPY internal internal
+COPY pkg pkg
 
 RUN go build -v -a \
     -gcflags "all=-trimpath=${WORKDIR}" \
