@@ -39,5 +39,5 @@ func exitIfError(err error) {
 	}
 
 	_, _ = fmt.Fprintln(os.Stderr, err)
-	os.Exit(2)
+	os.Exit(2) //nolint:gomnd
 }
