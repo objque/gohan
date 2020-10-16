@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/getsentry/sentry-go"
-	"github.com/objque/go-app-template/internal/log"
-	"github.com/objque/go-app-template/internal/log/hooks"
+	"github.com/objque/gohan/internal/log"
+	"github.com/objque/gohan/internal/log/hooks"
 )
 
 func main() {
