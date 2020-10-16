@@ -7,10 +7,11 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/objque/gohan/internal/log"
 	"github.com/objque/gohan/internal/log/hooks"
+	"github.com/objque/gohan/internal/version"
 )
 
 func main() {
-	log.SetLevel("INFO")
+	log.SetLevel("DEBUG")
 	log.SetWriters(log.GetConsoleWriter())
 
 	if os.Getenv("GOHAN_SENTRY_DSN") != "" {
@@ -28,6 +29,7 @@ func main() {
 		log.Info("sentry integration enabled")
 	}
 
+	log.Debug(version.FullInfo)
 	log.Info("Hello, world")
 }
 
