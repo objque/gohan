@@ -6,6 +6,12 @@ But it's might be simplified, if i will have prepared public project with common
 
 # Aims
 
+## logging
+
+- App will be run only in container, so we'll never use log-files
+- Log library should be in active maintaining and blazing-fast
+- So there are two choices [uber-go/zap](https://github.com/uber-go/zap) and [rs/zerolog](https://github.com/rs/zerolog)
+
 ## database
 
 - App should be prepared for work with [PostgreSQL](https://www.postgresql.org/docs/12/index.html)
