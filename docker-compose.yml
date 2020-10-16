@@ -1,0 +1,48 @@
+version: "3"
+services:
+  db:
+   image: postgres:12
+   container_name: gohan.db
+   ports:
+     - "5432:5432"
+   environment:
+     - POSTGRES_USER=gohan
+     - POSTGRES_PASSWORD=gohan
+     - POSTGRES_DB=gohan
+
+   # IMPORTANT: this container uses only for tests
+   # DO NOT EXEC QUERIES ON IT!
+  test_db:
+   image: postgres:12
+   container_name: gohan.test_db
+   ports:
+     - "2345:5432"
+   environment:
+     - POSTGRES_DB=gohan_db_ONLY_FOR_AUTOMATED_TESTS
+     - POSTGRES_USER=DO_NOT_EXEC_QUERIES_ON_IT
+     - POSTGRES_PASSWORD=35abafca-b37d-4c74-886c-c05831cef4b8
+
+  sources:
+    image: golang:latest
+    container_name: gohan.sources
+    depends_on:
+      - db
+      - test_db
+    volumes:
+      - ./:/go/src/gohan
+    working_dir: /go/src/gohan
+    environment:
+      - DB_HOST=gohan.db
+      - DB_PORT=5432
+      - DB_NAME=gohan
+      - DB_USER=gohan
+      - DB_PASSWORD=gohan
+
+      - TEST_DB_HOST=gohan.test_db
+      - TEST_DB_PORT=5432
+      - TEST_DB_NAME=gohan_db_ONLY_FOR_AUTOMATED_TESTS
+      - TEST_DB_USER=DO_NOT_EXEC_QUERIES_ON_IT
+      - TEST_DB_PASSWORD=35abafca-b37d-4c74-886c-c05831cef4b8
+    stdin_open: true
+    tty: true
+    command: ["/bin/bash"]
