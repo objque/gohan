@@ -6,6 +6,13 @@ But it's might be simplified, if i will have prepared public project with common
 
 # Aims
 
+# tests and linters
+
+App should be
+
+- Covered with tests that easy to write
+- Linted by [mgechev/revive](https://github.com/mgechev/revive) and [golangci/golangci-lint](https://github.com/golangci/golangci-lint)
+
 ## logging
 
 - App will be run only in container, so we'll never use log-files
