@@ -7,6 +7,14 @@ all:
 build:
 	go build -v -o ./bin/gohan ./cmd/gohan/...
 
+test t:
+	go test -v ./internal/...
+	go test -v ./pkg/...
+
+lint l:
+	bash ./scripts/revive.sh
+	bash ./scripts/golangci-lint.sh
+
 run:
 	go run ./cmd/gohan/...
 
