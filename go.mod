@@ -1,4 +1,4 @@
-module github.com/objque/go-app-template
+module github.com/objque/gohan
 
 go 1.15
 
