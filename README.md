@@ -11,7 +11,7 @@ You may run whole project by `make compose` and then just attach to `sources` co
 
 ## vscode
 
-Project contains `.devcontainer` file, so you may open it on the vscode and it may run whole dev environment with useful extensions
+Project contains `.devcontainer` file it means that you may open open sources and run whole dev environment in containers
 
 
 # Aims
