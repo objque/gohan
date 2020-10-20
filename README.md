@@ -4,6 +4,16 @@ Recently I've created a few of public/private projects with same dir structure b
 
 But it's might be simplified, if i will have prepared public project with common needed packages.
 
+
+# How to use
+
+You may run whole project by `make compose` and then just attach to `sources` container via `docker exec -it gohan.sources bash` or `make exec-sources`
+
+## vscode
+
+Project contains `.devcontainer` file, so you may open it on the vscode and it may run whole dev environment with useful extensions
+
+
 # Aims
 
 # tests and linters
@@ -30,7 +40,3 @@ App should be
 - To simplify process need to use [testify/assert](https://github.com/stretchr/testify/assert)/[testify/require](https://github.com/stretchr/testify/require). Before start you definitely must check great [article](https://dev.to/techschoolguru/write-go-unit-tests-for-db-crud-with-random-data-53no)
 - Another good practices: use context in db methods; use mgr that compatible with query and tx _(like in the gorm)_
 - Optional: it's ok to use [kyleconroy/sqlc](https://github.com/kyleconroy/sqlc) for generate type safe Go from SQL
-
-# How to use
-
-Run whole app by `make compose` and then just attach to `sources` container via `docker exec -it gohan.sources bash` or `make exec-sources`
