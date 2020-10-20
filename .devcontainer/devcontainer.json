@@ -1,0 +1,25 @@
+{
+	"service": "sources",
+	"workspaceFolder": "/go/src/gohan",
+
+	"name": "Gohan dev environment based on docker-compose.yml",
+	"extensions": [
+		"streetsidesoftware.code-spell-checker",
+		"golang.go",
+		"shardulm94.trailing-spaces",
+
+		// useful extensions:
+		// "adpyke.vscode-sql-formatter",
+		// "ms-azuretools.vscode-docker",
+		// "eamodio.gitlens"
+	],
+	"dockerComposeFile": [
+		"../docker-compose.yml",
+	],
+
+	// also may be useful to replace default bash shell wish fish
+	// "postCreateCommand": "apt-get update && apt-get install -y fish",
+	// "settings": {
+	// 	"terminal.integrated.shell.linux": "/usr/bin/fish"
+	// }
+}
