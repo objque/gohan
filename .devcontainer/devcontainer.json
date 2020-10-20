@@ -6,7 +6,7 @@
 	"extensions": [
 		"streetsidesoftware.code-spell-checker",
 		"golang.go",
-		"shardulm94.trailing-spaces",
+		"shardulm94.trailing-spaces"
 
 		// useful extensions:
 		// "adpyke.vscode-sql-formatter",
@@ -14,8 +14,8 @@
 		// "eamodio.gitlens"
 	],
 	"dockerComposeFile": [
-		"../docker-compose.yml",
-	],
+		"../docker-compose.yml"
+	]
 
 	// also may be useful to replace default bash shell wish fish
 	// "postCreateCommand": "apt-get update && apt-get install -y fish",
