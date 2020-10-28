@@ -1,0 +1,85 @@
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+name: Build and push latest image to github packages and docker hub
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ${{ github.repository }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up go 1.15
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.15
+        id: go
+
+      - name: Install artisync binaries
+        run: |
+          go install -v ./cmd/gohan/...
+
+      - name: Test whole code
+        run: |
+          make t
+
+      - name: Install and run lints
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $GITHUB_WORKSPACE v1.31.0
+
+          $GITHUB_WORKSPACE/golangci-lint -v run
+
+          go get -u github.com/mgechev/revive
+          $(go env GOPATH)/bin/revive --config ./.revive.toml --formatter stylish ./cmd/...
+          $(go env GOPATH)/bin/revive --config ./.revive.toml --formatter stylish ./internal/...
+          $(go env GOPATH)/bin/revive --config ./.revive.toml --formatter stylish ./pkg/...
+
+      - name: Pull latest images
+        run: |
+          docker pull $IMAGE_NAME-api-builder-stage:latest || true
+          docker pull $IMAGE_NAME-api:latest || true
+
+      - name: Build the Docker image
+        run: |
+          docker build \
+            --target builder \
+            --cache-from $IMAGE_NAME-api-builder-stage:latest \
+            -t $IMAGE_NAME-api-builder-stage \
+            .
+          docker build \
+            --target gohan \
+            --build-arg RELEASE=${GITHUB_REF##*/} \
+            --build-arg COMMIT=${GITHUB_SHA} \
+            --build-arg BUILD_TIME=$(shell date -u '+%Y-%m-%dT%H:%M:%S') \
+            --cache-from $IMAGE_NAME-api-builder-stage:latest \
+            --cache-from $IMAGE_NAME-api:latest \
+            --tag $IMAGE_NAME-api:latest \
+            --tag docker.pkg.github.com/$IMAGE_NAME/gohan:latest \
+            .
+
+      - name: Login to hubs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKERHUB_ACTOR: ${{ secrets.DOCKERHUB_ACTOR }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          docker login docker.pkg.github.com -u $GITHUB_ACTOR    -p $GITHUB_TOKEN
+          docker login                       -u $DOCKERHUB_ACTOR -p $DOCKERHUB_TOKEN
+
+      - name: Push image to hubs
+        run: |
+          docker push $IMAGE_NAME-api-builder-stage:latest
+          docker push $IMAGE_NAME-api:latest
+          docker push docker.pkg.github.com/$IMAGE_NAME/gohan:latest
+
+      - name: Logout
+        run: |
+          docker logout docker.pkg.github.com
+          docker logout

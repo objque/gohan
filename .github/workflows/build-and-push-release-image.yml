@@ -1,14 +1,12 @@
 on:
   push:
-    branches:
-      - master
-      - develop
+    tags:
+      - "v*"
 
-name: Build and push be image to github packages and docker hub
+name: Build and push release image to github packages and docker hub
 
 jobs:
   build:
-    name: Build and push be image to github packages and docker hub
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: ${{ github.repository }}
@@ -55,10 +53,14 @@ jobs:
             -t $IMAGE_NAME-api-builder-stage \
             .
           docker build \
+            --target gohan \
+            --build-arg RELEASE=${GITHUB_REF##*/} \
+            --build-arg COMMIT=${GITHUB_SHA} \
+            --build-arg BUILD_TIME=$(shell date -u '+%Y-%m-%dT%H:%M:%S') \
             --cache-from $IMAGE_NAME-api-builder-stage:latest \
             --cache-from $IMAGE_NAME-api:latest \
-            --tag $IMAGE_NAME-api:latest \
-            --tag docker.pkg.github.com/$IMAGE_NAME/gohan:latest \
+            --tag $IMAGE_NAME-api:${GITHUB_REF##*/} \
+            --tag docker.pkg.github.com/$IMAGE_NAME/gohan:${GITHUB_REF##*/} \
             .
 
       - name: Login to hubs
@@ -72,9 +74,8 @@ jobs:
 
       - name: Push image to hubs
         run: |
-          docker push $IMAGE_NAME-api-builder-stage:latest
-          docker push $IMAGE_NAME-api:latest
-          docker push docker.pkg.github.com/$IMAGE_NAME/gohan:latest
+          docker push $IMAGE_NAME-api:${GITHUB_REF##*/}
+          docker push docker.pkg.github.com/$IMAGE_NAME/gohan:${GITHUB_REF##*/}
 
       - name: Logout
         run: |
