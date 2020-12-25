@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"net/http"
@@ -64,8 +65,8 @@ func main() {
 	go gracefulShutdown(ctx, server, quit, done)
 
 	log.Infof("server is ready to handle requests at: %v", server.Addr)
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		exitIfError(fmt.Errorf("could not listen on %v: %v", server.Addr, err))
+	if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		exitIfError(fmt.Errorf("could not listen on %v: %w", server.Addr, err))
 	}
 
 	<-done
