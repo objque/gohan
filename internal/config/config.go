@@ -8,20 +8,34 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+const (
+	// log
+	defaultLogLevel = "debug"
+	// http
+	defaultIP           = "127.0.0.1"
+	defaultPort         = 7711
+	defaultReadTimeout  = 30 * time.Second
+	defaultWriteTimeout = 30 * time.Second
+	defaultIdleTimeout  = 30 * time.Second
+
+	// sentry
+	defaultFlushTimeout = 10 * time.Second
+)
+
 func New() *AppConfig {
 	return &AppConfig{
 		Log: LogConfig{
-			Level: "DEBUG",
+			Level: defaultLogLevel,
 		},
 		HTTP: HTTPConfig{
-			IP:           "127.0.0.1",
-			Port:         7711,
-			ReadTimeout:  30 * time.Second,
-			WriteTimeout: 30 * time.Second,
-			IdleTimeout:  30 * time.Second,
+			IP:           defaultIP,
+			Port:         defaultPort,
+			ReadTimeout:  defaultReadTimeout,
+			WriteTimeout: defaultWriteTimeout,
+			IdleTimeout:  defaultIdleTimeout,
 		},
 		Sentry: SentryConfig{
-			FlushTimeout: 10 * time.Second,
+			FlushTimeout: defaultFlushTimeout,
 		},
 	}
 }
@@ -44,5 +58,5 @@ func (c *AppConfig) LoadFromBytes(val []byte) error {
 
 func (c *AppConfig) Dump() string {
 	b, _ := yaml.Marshal(c)
-	return string(b)
+	return string(b) //nolint:nlreturn
 }
