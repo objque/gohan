@@ -40,5 +40,5 @@ func (s *Service) CreateSubscription(subscription *repo.Subscription) error {
 }
 
 func (s *Service) DeleteSubscription(subscription *repo.Subscription) error {
-	return guard.NewInternalError(errors.New("not implemented"))
+	return guard.NewInternalError(errors.New("not implemented")) //nolint:err113
 }
