@@ -24,7 +24,7 @@ func (c *Controller) Create(w http.ResponseWriter, r *http.Request) {
 
 	if err := c.repository.CreateSubscription(subscription); err != nil {
 		httputils.WriteGuardError(w, err)
-		return
+		return //nolint:nlreturn
 	}
 
 	_ = httputils.WriteJSON(w, http.StatusCreated, subscription)
@@ -33,7 +33,7 @@ func (c *Controller) Create(w http.ResponseWriter, r *http.Request) {
 func (c *Controller) List(w http.ResponseWriter, r *http.Request) {
 	opts := repo.GetSubscriptionsOpts{
 		UserName: httputils.GetUserName(r),
-		Limit: defaultSubscriptionsLimit,
+		Limit:    defaultSubscriptionsLimit,
 	}
 
 	if values, exists := r.URL.Query()["offset"]; exists {
@@ -41,7 +41,7 @@ func (c *Controller) List(w http.ResponseWriter, r *http.Request) {
 		offset, err := httputils.GetUint16FromQuery(rawOffset)
 		if err != nil {
 			httputils.WriteClientError(w, errors.NewWrongQueryValueError("uint16", "offset", rawOffset))
-			return
+			return //nolint:nlreturn
 		}
 
 		opts.Offset = offset
@@ -50,7 +50,7 @@ func (c *Controller) List(w http.ResponseWriter, r *http.Request) {
 	subscriptions, err := c.repository.GetSubscriptions(&opts)
 	if err != nil {
 		httputils.WriteGuardError(w, err)
-		return
+		return //nolint:nlreturn
 	}
 
 	_ = httputils.WriteJSON(w, http.StatusOK, subscriptions)
