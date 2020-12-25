@@ -9,7 +9,7 @@ import (
 	"github.com/objque/gohan/internal/log"
 )
 
-var internalError = errors.New("internal") //nolint:gochecknoglobals
+var errInternal = errors.New("internal") //nolint:gochecknoglobals
 
 type ErrorResponse struct {
 	Error string `json:"error"`
@@ -17,7 +17,7 @@ type ErrorResponse struct {
 
 func WriteInternalError(w http.ResponseWriter, err error) {
 	log.Error(err.Error())
-	WriteErrorWithCode(w, http.StatusInternalServerError, internalError)
+	WriteErrorWithCode(w, http.StatusInternalServerError, errInternal)
 }
 
 func WriteClientError(w http.ResponseWriter, err error) {
