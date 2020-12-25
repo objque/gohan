@@ -8,6 +8,10 @@ import (
 
 type Service struct{}
 
+func New() *Service {
+	return new(Service)
+}
+
 func (s *Service) GetSubscriptions(opts *repo.GetSubscriptionsOpts) ([]*repo.Subscription, error) {
 	return nil, errors.New("not implemented")
 }

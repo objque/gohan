@@ -14,6 +14,7 @@ import (
 	"github.com/objque/gohan/internal/config"
 	"github.com/objque/gohan/internal/log"
 	"github.com/objque/gohan/internal/log/hooks"
+	"github.com/objque/gohan/internal/services/subscriptions"
 	"github.com/objque/gohan/internal/version"
 )
 
@@ -46,7 +47,10 @@ func main() {
 		log.Info("sentry integration enabled")
 	}
 
-	server := api.New(api.GetRouter(), conf.HTTP)
+	routerOpts := api.RouterOpts{
+		SubscriptionsRepository: subscriptions.New(),
+	}
+	server := api.New(api.GetRouter(routerOpts), conf.HTTP)
 
 	log.Debug("gohan started")
 	log.Info(version.FullInfo)
