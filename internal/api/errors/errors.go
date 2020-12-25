@@ -18,3 +18,17 @@ func NewWrongQueryValueError(queryType, queryName, queryValue string) error {
 		value: queryValue,
 	}
 }
+
+type IncorrectBody struct {
+	entity string
+}
+
+func (e IncorrectBody) Error() string {
+	return fmt.Sprintf("incorrect %s body", e.entity)
+}
+
+func NewIncorrectBodyError(entity string) error {
+	return IncorrectBody{
+		entity: entity,
+	}
+}
