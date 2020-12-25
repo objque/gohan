@@ -15,7 +15,19 @@ func New() *Service {
 }
 
 func (s *Service) GetSubscriptions(opts *repo.GetSubscriptionsOpts) ([]*repo.Subscription, error) {
-	return nil, guard.NewInternalError(errors.New("not implemented"))
+	// TODO (m.kalinin): replace mock with database call
+	subs := []*repo.Subscription{
+		{
+			ID: 100, //nolint:gomnd
+			Artist: repo.Artist{
+				ID:     123456,                       //nolint:gomnd
+				Name:   "Skrillex",                   //nolint:gomnd
+				Poster: "http://posters.io/skrillex", //nolint:gomnd
+			},
+		},
+	}
+
+	return subs, nil
 }
 
 func (s *Service) CreateSubscription(subscription *repo.Subscription) error {
@@ -28,5 +40,5 @@ func (s *Service) CreateSubscription(subscription *repo.Subscription) error {
 }
 
 func (s *Service) DeleteSubscription(subscription *repo.Subscription) error {
-	return guard.NewInternalError(errors.New("not implemented"))
+	return guard.NewInternalError(errors.New("not implemented")) //nolint:err113
 }
