@@ -33,12 +33,12 @@ func main() {
 	log.SetWriters(log.GetConsoleWriter())
 	log.Debug(conf.Dump())
 
-	if os.Getenv("GOHAN_SENTRY_DSN") != "" {
+	if conf.Sentry.Enabled {
 		err := sentry.Init(sentry.ClientOptions{
 			AttachStacktrace: true,
-			Dsn:              os.Getenv("GOHAN_SENTRY_DSN"),
-			Environment:      os.Getenv("GOHAN_SENTRY_ENVIRONMENT"),
-			Release:          "1.0",
+			Dsn:              conf.Sentry.DSN,
+			Environment:      conf.Sentry.Environment,
+			Release:          version.Commit,
 		})
 		if err != nil {
 			exitIfError(fmt.Errorf("sentry initialization failed: %w", err))
