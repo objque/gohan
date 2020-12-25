@@ -15,7 +15,7 @@ lint l:
 	bash ./scripts/golangci-lint.sh
 
 run:
-	go run ./cmd/gohan/...
+	go run ./cmd/gohan/... --config ./gohan.example.yml
 
 compose:
 	docker-compose up -d --build
