@@ -10,4 +10,5 @@ require (
 	github.com/rs/zerolog v1.20.0
 	golang.org/x/sys v0.0.0-20201016160150-f659759dc4ca // indirect
 	golang.org/x/tools v0.0.0-20201016185037-a78bdc4e06a3 // indirect
+	gopkg.in/yaml.v2 v2.2.4
 )

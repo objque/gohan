@@ -23,6 +23,10 @@ App should be
 - Covered with tests that easy to write
 - Linted by [mgechev/revive](https://github.com/mgechev/revive) and [golangci/golangci-lint](https://github.com/golangci/golangci-lint)
 
+## config
+
+- Ability to override default settings from the config file. By default conf may be in yaml
+
 ## logging
 
 - App will be run only in container, so we'll never use log-files

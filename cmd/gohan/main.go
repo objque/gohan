@@ -1,18 +1,30 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
 	"github.com/getsentry/sentry-go"
+	"github.com/objque/gohan/internal/config"
 	"github.com/objque/gohan/internal/log"
 	"github.com/objque/gohan/internal/log/hooks"
 	"github.com/objque/gohan/internal/version"
 )
 
 func main() {
-	log.SetLevel("DEBUG")
+	configPath := flag.String("config", "", "Abs path to config.yaml")
+
+	flag.Parse()
+
+	conf := config.New()
+	if *configPath != "" {
+		exitIfError(conf.LoadFromFile(*configPath))
+	}
+
+	log.SetLevel(conf.Log.Level)
 	log.SetWriters(log.GetConsoleWriter())
+	log.Debug(conf.Dump())
 
 	if os.Getenv("GOHAN_SENTRY_DSN") != "" {
 		err := sentry.Init(sentry.ClientOptions{
