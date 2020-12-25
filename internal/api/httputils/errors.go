@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/objque/gohan/internal/guard"
 	"github.com/objque/gohan/internal/log"
 )
 
@@ -29,3 +30,16 @@ func WriteErrorWithCode(w http.ResponseWriter, code int, err error) {
 	_, _ = w.Write(b)
 }
 
+func WriteGuardError(w http.ResponseWriter, err error) {
+	if guard.IsClientError(err) {
+		WriteClientError(w, errors.Unwrap(err))
+		return
+	}
+
+	if guard.IsInternalError(err) {
+		WriteInternalError(w, errors.Unwrap(err))
+		return
+	}
+
+	WriteInternalError(w, err)
+}

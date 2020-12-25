@@ -37,7 +37,7 @@ func (c *Controller) List(w http.ResponseWriter, r *http.Request) {
 
 	subscriptions, err := c.repository.GetSubscriptions(&opts)
 	if err != nil {
-		httputils.WriteInternalError(w, err)
+		httputils.WriteGuardError(w, err)
 		return
 	}
 
