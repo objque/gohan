@@ -9,7 +9,7 @@ import (
 	"github.com/objque/gohan/internal/log"
 )
 
-var internalError = errors.New("internal")
+var internalError = errors.New("internal") //nolint:gochecknoglobals
 
 type ErrorResponse struct {
 	Error string `json:"error"`
